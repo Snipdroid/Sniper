@@ -1,6 +1,7 @@
 package ren.imyan.sniper.ui
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.MaterialColors
 import ren.imyan.sniper.R
 import ren.imyan.sniper.common.binding
@@ -39,10 +41,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTransparentStyle(binding.root, window)
+        val uiMode = resources.configuration.uiMode
+        if ((uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES){
+            setTransparentStyle(binding.root, window,false)
+        }else{
+            setTransparentStyle(binding.root, window)
+        }
         setContentView(binding.root)
 
-        window.navigationBarColor = getThemeAttrColor(this,R.style.Theme_Sniper ,com.google.android.material.R.attr.colorSurface)
+        window.navigationBarColor = getThemeAttrColor(this,R.style.Theme_Sniper ,
+            com.google.android.material.R.attr.colorSurface)
 
         binding.pager.apply {
             offscreenPageLimit = fragmentClazzList.size
