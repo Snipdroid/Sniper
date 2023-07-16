@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Sniper</string>
+    <string name="home">Home</string>
+    <string name="icons">Icons</string>
+    <string name="icon_request">Icon Request</string>
+    <string name="settings">Settings</string>
+</resources>

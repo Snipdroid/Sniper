@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/home_anim"
+        android:title="@string/home"/>
+    <item
+        android:id="@+id/icons"
+        android:enabled="true"
+        android:icon="@drawable/category_anim"
+        android:title="@string/icons"/>
+    <item
+        android:id="@+id/request"
+        android:enabled="true"
+        android:icon="@drawable/request_anim"
+        android:title="@string/icon_request"/>
+    <item
+        android:id="@+id/settings"
+        android:enabled="true"
+        android:icon="@drawable/settings_anim"
+        android:title="@string/settings"/>
+</menu>
