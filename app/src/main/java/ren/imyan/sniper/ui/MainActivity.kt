@@ -12,9 +12,11 @@ import androidx.annotation.NonNull
 import androidx.annotation.StyleRes
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.view.WindowCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.MaterialColors
 import ren.imyan.sniper.R
@@ -55,7 +57,12 @@ class MainActivity : AppCompatActivity() {
         binding.pager.apply {
             offscreenPageLimit = fragmentClazzList.size
             adapter = MainFragmentAdapter(this@MainActivity)
-            isUserInputEnabled = false
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    binding.bottomNavigation.selectedItemId = binding.bottomNavigation.menu[position].itemId
+                }
+            })
         }
 
         binding.bottomNavigation.setOnItemSelectedListener {

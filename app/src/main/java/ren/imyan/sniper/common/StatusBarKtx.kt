@@ -37,9 +37,10 @@ private fun setInsertPadding(window: Window, view: View) {
     val rootWindowInsert = ViewCompat.getRootWindowInsets(window.decorView) ?: return
     val statusInsert = rootWindowInsert.getInsets(WindowInsetsCompat.Type.statusBars())
     val paddingTop = kotlin.math.abs(statusInsert.top - statusInsert.bottom)
-    val navInsert = rootWindowInsert.getInsets(WindowInsetsCompat.Type.navigationBars())
-    val paddingBottom = kotlin.math.abs(navInsert.top - navInsert.bottom)
+//    val navInsert = rootWindowInsert.getInsets(WindowInsetsCompat.Type.navigationBars())
+//    val paddingBottom = kotlin.math.abs(navInsert.top - navInsert.bottom)
+    val paddingBottom = 1
     if (paddingTop != 0 || paddingBottom != 0) {
-        view.setPadding(0, paddingTop, 0, paddingBottom)
+        view.setPadding(0, paddingTop, 0, 0)
     }
 }
