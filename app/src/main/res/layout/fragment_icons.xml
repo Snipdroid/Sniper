@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.icons.IconsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/email_header"
@@ -22,8 +22,31 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/icons" />
+        app:tabMode="scrollable">
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--    <ScrollView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content">-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="vertical"-->
+    <!--            android:paddingLeft="16dp"-->
+    <!--            android:paddingRight="16dp">-->
+
+    <!--            -->
+    <!--        </LinearLayout>-->
+    <!--    </ScrollView>-->
 </LinearLayout>

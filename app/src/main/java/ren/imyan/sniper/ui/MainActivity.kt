@@ -44,23 +44,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val uiMode = resources.configuration.uiMode
-        if ((uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES){
-            setTransparentStyle(binding.root, window,false)
-        }else{
+        if ((uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
+            setTransparentStyle(binding.root, window, false)
+        } else {
             setTransparentStyle(binding.root, window)
         }
         setContentView(binding.root)
 
-        window.navigationBarColor = getThemeAttrColor(this,R.style.Theme_Sniper ,
-            com.google.android.material.R.attr.colorSurface)
+        window.navigationBarColor = getThemeAttrColor(
+            this, R.style.Theme_Sniper,
+            com.google.android.material.R.attr.colorSurface
+        )
 
         binding.pager.apply {
             offscreenPageLimit = fragmentClazzList.size
             adapter = MainFragmentAdapter(this@MainActivity)
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    binding.bottomNavigation.selectedItemId = binding.bottomNavigation.menu[position].itemId
+                    binding.bottomNavigation.selectedItemId =
+                        binding.bottomNavigation.menu[position].itemId
                 }
             })
         }
@@ -92,8 +95,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     @ColorInt
-    fun getThemeAttrColor(@NonNull context: Context, @StyleRes themeResId: Int, @AttrRes attrResId: Int): Int {
-        return MaterialColors.getColor(ContextThemeWrapper(context, themeResId), attrResId, Color.WHITE)
+    fun getThemeAttrColor(
+        @NonNull context: Context,
+        @StyleRes themeResId: Int,
+        @AttrRes attrResId: Int
+    ): Int {
+        return MaterialColors.getColor(
+            ContextThemeWrapper(context, themeResId),
+            attrResId,
+            Color.WHITE
+        )
     }
 
 
