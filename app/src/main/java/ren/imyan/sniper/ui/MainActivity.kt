@@ -1,26 +1,16 @@
 package ren.imyan.sniper.ui
 
-import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
-import androidx.annotation.NonNull
-import androidx.annotation.StyleRes
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.core.view.WindowCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.color.DynamicColors
-import com.google.android.material.color.MaterialColors
 import ren.imyan.sniper.R
 import ren.imyan.sniper.common.binding
+import ren.imyan.sniper.common.getThemeAttrColor
 import ren.imyan.sniper.common.setTransparentStyle
 import ren.imyan.sniper.databinding.ActivityMainBinding
 import ren.imyan.sniper.ui.home.HomeFragment
@@ -43,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
         val uiMode = resources.configuration.uiMode
         if ((uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
             setTransparentStyle(binding.root, window, false)
@@ -51,13 +42,15 @@ class MainActivity : AppCompatActivity() {
         }
         setContentView(binding.root)
 
-        window.navigationBarColor = getThemeAttrColor(
-            this, R.style.Theme_Sniper,
-            com.google.android.material.R.attr.colorSurface
+        val color = this.getThemeAttrColor(
+            R.style.Theme_Sniper, com.google.android.material.R.attr.colorSurfaceContainer
         )
+
+        window.navigationBarColor = color
 
         binding.pager.apply {
             offscreenPageLimit = fragmentClazzList.size
+            isUserInputEnabled = false
             adapter = MainFragmentAdapter(this@MainActivity)
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -71,40 +64,27 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
-                    binding.pager.currentItem = 0
+                    binding.pager.setCurrentItem(0, false)
                 }
 
                 R.id.icons -> {
-                    binding.pager.currentItem = 1
+                    binding.pager.setCurrentItem(1, false)
                 }
 
                 R.id.request -> {
-                    binding.pager.currentItem = 2
+                    binding.pager.setCurrentItem(2, false)
                 }
 
                 R.id.settings -> {
-                    binding.pager.currentItem = 3
+                    binding.pager.setCurrentItem(3, false)
                 }
 
                 else -> {
-                    binding.pager.currentItem = 0
+                    binding.pager.setCurrentItem(0, false)
                 }
             }
             true
         }
-    }
-
-    @ColorInt
-    fun getThemeAttrColor(
-        @NonNull context: Context,
-        @StyleRes themeResId: Int,
-        @AttrRes attrResId: Int
-    ): Int {
-        return MaterialColors.getColor(
-            ContextThemeWrapper(context, themeResId),
-            attrResId,
-            Color.WHITE
-        )
     }
 
 

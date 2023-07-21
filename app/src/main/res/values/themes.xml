@@ -1,9 +1,23 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.Sniper" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Sniper" parent="Base.Theme.Sniper" />
+    <style name="Theme.Sniper" parent="Base.Theme.Sniper">
+        <item name="android:navigationBarColor">
+            @android:color/transparent
+        </item>
+
+        <!-- Optional: set to transparent if your app is drawing behind the status bar. -->
+        <item name="android:statusBarColor">
+            @android:color/transparent
+        </item>
+
+        <!-- Optional: set the status bar light and content dark. -->
+        <item name="android:windowLightStatusBar">
+            true
+        </item>
+    </style>
 </resources>
