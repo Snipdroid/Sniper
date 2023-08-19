@@ -5,10 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.checkbox.MaterialCheckBox
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ren.imyan.sniper.R
 import ren.imyan.sniper.base.BaseFragment
 import ren.imyan.sniper.base.BaseLoad
@@ -18,13 +21,19 @@ import ren.imyan.sniper.common.observeState
 import ren.imyan.sniper.databinding.FragmentRequestBinding
 import ren.imyan.sniper.databinding.ItemIconRequestBinding
 import ren.imyan.sniper.model.AppInfo
+import ren.imyan.sniper.ui.IconRequestAction
 import ren.imyan.sniper.ui.IconRequestData
+import ren.imyan.sniper.ui.IconRequestEvent
 import ren.imyan.sniper.ui.IconRequestViewModel
 
 class RequestFragment : BaseFragment(R.layout.fragment_request) {
     private val binding by binding(FragmentRequestBinding::bind)
     private val viewModel by activityViewModels<IconRequestViewModel>()
     private val requestListAdapter = RequestListAdapter(mutableListOf())
+    private val appInfoList = mutableListOf<AppInfo>()
+    private val requestDialog by lazy {
+        RequestDialog(requireActivity())
+    }
 
     override fun initView(root: View) {
         super.initView(root)
@@ -32,14 +41,32 @@ class RequestFragment : BaseFragment(R.layout.fragment_request) {
             layoutManager = LinearLayoutManager(context)
             adapter = requestListAdapter
         }
+
+        binding?.floatingActionButton?.setOnClickListener {
+            viewModel.dispatch(IconRequestAction.RequestApp(appInfoList.filter { it.isCheck }))
+            requestDialog.show()
+        }
     }
 
     override fun initViewModel(viewLifecycleOwner: LifecycleOwner) {
         super.initViewModel(viewLifecycleOwner)
         viewModel.uiData.observeState(viewLifecycleOwner, IconRequestData::appInfoList) {
             when (it) {
+                is BaseLoad.Loading -> {
+                    binding?.apply {
+                        loading.visibility = View.VISIBLE
+                        floatingActionButton.visibility = View.GONE
+                    }
+                }
+
                 is BaseLoad.Success -> {
+                    binding?.apply {
+                        loading.visibility = View.GONE
+                        floatingActionButton.visibility = View.VISIBLE
+                    }
                     requestListAdapter.updateData(it.data)
+                    appInfoList.clear()
+                    appInfoList.addAll(it.data)
                 }
 
                 else -> {
@@ -47,6 +74,22 @@ class RequestFragment : BaseFragment(R.layout.fragment_request) {
                 }
             }
         }
+        viewModel.uiEvent.onEach {
+            when (it) {
+                is IconRequestEvent.UpdateProgress -> {
+                    requestDialog.updateProgress(it.progress, it.max)
+                }
+
+                IconRequestEvent.UploadFail -> {
+                    requestDialog.dismiss()
+                }
+
+                IconRequestEvent.UploadFinish -> {
+                    requestDialog.dismiss()
+                    viewModel.dispatch(IconRequestAction.Refresh)
+                }
+            }
+        }.launchIn(lifecycleScope)
     }
 
     inner class RequestListAdapter(private var data: List<AppInfo>) :
@@ -84,6 +127,13 @@ class RequestFragment : BaseFragment(R.layout.fragment_request) {
                     } else {
                         check.checkedState = MaterialCheckBox.STATE_CHECKED
                     }
+                }
+
+                check.addOnCheckedStateChangedListener { _, _ ->
+                    val selectApp = appInfoList.find {
+                        it.packageName == dataItem.packageName
+                    }
+                    selectApp?.isCheck = !selectApp?.isCheck!!
                 }
             }
         }

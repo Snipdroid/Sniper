@@ -38,9 +38,23 @@ class IconsFragment : BaseFragment(R.layout.fragment_icons) {
         super.initViewModel(viewLifecycleOwner)
         viewModel.uiData.observeState(viewLifecycleOwner, IconPackData::iconMap) {
             when (it) {
+                is BaseLoad.Loading -> {
+                    binding?.apply {
+                        loading.visibility = View.VISIBLE
+                        tablayout.visibility = View.GONE
+                        pager.visibility = View.GONE
+                    }
+                }
+
                 is BaseLoad.Success -> {
                     initTab(it.data.keys.toList())
                     initIconView(it.data)
+
+                    binding?.apply {
+                        loading.visibility = View.GONE
+                        tablayout.visibility = View.VISIBLE
+                        pager.visibility = View.VISIBLE
+                    }
                 }
 
                 else -> {}

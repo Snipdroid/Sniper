@@ -7,6 +7,6 @@ data class AppInfo(
     val packageName: String?,
     val activityName: String?,
     val icon: Bitmap?,
-    val isRequest: Boolean = false,
+    var isRequest: Boolean = false,
     var isCheck: Boolean = false
 )

@@ -16,7 +16,10 @@ sealed class IconPackEvent : UiEvent
 
 sealed class IconPackAction : UiAction
 
-data class IconPackData(val iconMap: BaseLoad<Map<String, Array<IconHelper.IconInfo>>>? = null) :
+data class IconPackData(
+    val iconMap: BaseLoad<Map<String, Array<IconHelper.IconInfo>>>? = null,
+    val iconCount: BaseLoad<Int>? = null
+) :
     UiData
 
 class IconPackViewModel : BaseViewModel<IconPackData, IconPackEvent, IconPackAction>() {
@@ -57,6 +60,16 @@ class IconPackViewModel : BaseViewModel<IconPackData, IconPackEvent, IconPackAct
 
         emitData {
             copy(iconMap = BaseLoad.Success(iconMap))
+        }
+
+        var count = 0
+
+        iconMap.forEach {
+            count += it.value.size
+        }
+        
+        emitData {
+            copy(iconCount = BaseLoad.Success(count))
         }
     }
 }

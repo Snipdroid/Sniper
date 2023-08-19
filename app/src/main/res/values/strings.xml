@@ -5,5 +5,11 @@
     <string name="icon_request">Icon Request</string>
     <string name="settings">Settings</string>
     <string name="request">Already requested</string>
+    <string name="requests">Requests</string>
     <string name="not_request">Not requested</string>
+    <string name="uploading">Uploading</string>
+    <string name="cancel">Cancel</string>
+    <string name="install_app">%s installed apps</string>
+    <string name="themed_app">Themed %d apps</string>
+    <string name="missed_app">Missed %d apps</string>
 </resources>
