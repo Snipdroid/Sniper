@@ -6,9 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ren.imyan.sniper.R
+import ren.imyan.sniper.common.DataStoreUtil
 import ren.imyan.sniper.common.binding
 import ren.imyan.sniper.common.getThemeAttrColor
 import ren.imyan.sniper.common.setTransparentStyle
@@ -84,6 +88,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             true
+        }
+
+        lifecycleScope.launch {
+            DataStoreUtil.getData("privacy", false).collectLatest { isPrivacy ->
+                if (!isPrivacy) {
+                    PrivacyDialog(this@MainActivity).show()
+                }
+            }
         }
     }
 

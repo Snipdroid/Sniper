@@ -75,5 +75,7 @@ dependencies {
 
     implementation "com.airbnb.android:lottie:6.1.0"
 
+    implementation "io.noties.markwon:core:4.6.2"
+
     implementation 'com.github.Yanren1225.SmartIconPack:IconCore:75d363fa2e'
 }

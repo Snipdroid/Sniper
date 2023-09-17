@@ -12,4 +12,7 @@
     <string name="install_app">%s installed apps</string>
     <string name="themed_app">Themed %d apps</string>
     <string name="missed_app">Missed %d apps</string>
+    <string name="privacy_title">User Agreement and Privacy Policy</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
 </resources>
